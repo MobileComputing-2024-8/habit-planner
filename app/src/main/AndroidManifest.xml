@@ -12,6 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Habitplanner"
         tools:targetApi="31">
+        <activity android:name=".AddRoutineActivity"
+            android:parentActivityName=".RoutineListActivity"
+            android:exported="true"/>
+        <activity
+            android:name=".RoutineListActivity"
+            android:parentActivityName=".MainActivity"
+            android:exported="true"/>
         <activity
             android:name=".MainActivity"
             android:exported="true">
