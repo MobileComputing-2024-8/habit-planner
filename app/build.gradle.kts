@@ -1,6 +1,17 @@
+import java.util.Properties
+
 plugins {
   alias(libs.plugins.android.application)
   alias(libs.plugins.jetbrains.kotlin.android)
+}
+
+fun getApiKey(propertyKey: String): String {
+  val properties = Properties()
+  val localPropertiesFile = File(rootDir, "local.properties")
+  if (localPropertiesFile.exists()) {
+    properties.load(localPropertiesFile.inputStream())
+  }
+  return properties.getProperty(propertyKey)
 }
 
 android {
@@ -13,6 +24,7 @@ android {
     targetSdk = 34
     versionCode = 1
     versionName = "1.0"
+    buildConfigField("String", "OPENAI_API_KEY", "\"${getApiKey("OPENAI_API_KEY")}\"")
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
   }
@@ -36,7 +48,6 @@ android {
 }
 
 dependencies {
-
   implementation(libs.androidx.core.ktx)
   implementation(libs.androidx.appcompat)
   implementation(libs.material)
