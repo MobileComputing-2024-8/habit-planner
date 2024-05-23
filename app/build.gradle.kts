@@ -21,7 +21,7 @@ android {
 
   defaultConfig {
     applicationId = "com.example.habit_planner"
-    minSdk = 19
+    minSdk = 21
     targetSdk = 34
     versionCode = 1
     versionName = "1.0"
@@ -45,6 +45,7 @@ android {
   }
   buildFeatures {
     viewBinding = true
+    buildConfig = true
   }
 }
 
@@ -54,6 +55,7 @@ dependencies {
   implementation(libs.material)
   implementation(libs.androidx.activity)
   implementation(libs.androidx.constraintlayout)
+  implementation(libs.firebase.messaging)
   testImplementation(libs.junit)
   implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
   androidTestImplementation(libs.androidx.junit)

@@ -3,4 +3,5 @@
     <string name="logo_name">아침루틴 도우미</string>
     <string name="cheering_message">고생하셨어요!\n오늘도 좋은 하루 보내세요!</string>
     <string name="congratuation">🎉</string>
+    <string name="msg_token_fmt">Token: %1$s</string>
 </resources>
