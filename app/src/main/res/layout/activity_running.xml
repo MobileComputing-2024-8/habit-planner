@@ -1,0 +1,219 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="90dp"
+        android:text="침구 정리"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"/>
+
+
+    <!-- Timer Circle -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/timerCardView"
+        android:layout_width="220dp"
+        android:layout_height="220dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="32dp"
+        app:cardCornerRadius="110dp"
+        app:cardElevation="10dp"
+        app:cardBackgroundColor="@android:color/white">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <!-- BackgroundImage -->
+            <ImageView
+                app:tint="#90FFFFFF"
+                android:tintMode="src_atop"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/routin_bed_blur" />
+
+
+            <!-- ProgressIndicator -->
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/progressIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminate="false"
+                android:max="100"
+                android:progress="60"
+                app:indicatorSize="220dp"
+                app:trackThickness="8dp"
+                app:indicatorColor="@color/darkgreen"
+                app:trackColor="@color/lightgray" />
+
+            <!-- Inner Content -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/icon"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/bed_icon"/>
+
+                <!-- Timer Text -->
+                <Chronometer
+                    android:id="@+id/timer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:format="%s"
+                    android:textSize="36sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black" />
+
+                <Chronometer
+                    android:id="@+id/set_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:format="%s 분"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black" />
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Pause and Confirm Buttons Container -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="32dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/pausebtn"
+            android:layout_gravity="center"
+            android:layout_width="62dp"
+            android:layout_height="62dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/pause_icon"
+            android:backgroundTint="@android:color/darker_gray"/>
+
+        <ImageButton
+            android:id="@+id/checkbtn"
+            android:layout_gravity="center"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:backgroundTint="@color/darkgreen"
+            android:background="@drawable/check_icon"/>
+
+        <ImageButton
+            android:id="@+id/nextTaskbtn"
+            android:layout_gravity="center"
+            android:layout_width="62dp"
+            android:layout_height="62dp"
+            android:layout_marginLeft="16dp"
+            android:backgroundTint="@android:color/darker_gray"
+            android:background="@drawable/next_icon"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="100sp">
+
+        <TextView
+            android:id="@+id/nextTaskView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="다음 할 일 : "
+            android:textSize="18sp"
+            android:textColor="@android:color/darker_gray" />
+
+        <TextView
+            android:id="@+id/nextTeskText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="물 마시기"
+            android:textSize="18sp"
+            android:textColor="@android:color/darker_gray" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <ImageView
+                android:id="@+id/bottom_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/bottom_bar"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:gravity="center">
+
+            <ImageButton
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@drawable/wallpaper_icon"
+                android:backgroundTint="@color/darkgreen"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="오후 00:00"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_marginRight="70dp"
+                android:layout_marginLeft="70dp"/>
+
+            <ImageButton
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@drawable/ai_voice"
+                android:backgroundTint="@color/darkgreen" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+</LinearLayout>
