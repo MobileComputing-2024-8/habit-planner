@@ -1,13 +1,16 @@
 package com.example.habit_planner
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.habit_planner.databinding.ItemRoutineBinding
 
 class RoutineAdapter(
     private val routines: MutableList<String>,
-    private val onEditRoutine: (String, Int) -> Unit
+    private val onEditRoutine: (String, Int) -> Unit,
+    private val onPlayRoutine : (String) -> Unit
 ) : RecyclerView.Adapter<RoutineAdapter.RoutineViewHolder>() {
 
     class RoutineViewHolder(val binding: ItemRoutineBinding) : RecyclerView.ViewHolder(binding.root)
@@ -24,6 +27,9 @@ class RoutineAdapter(
             onEditRoutine(routine, position)
         }
         // 루틴 시작 버튼 코드도 여기에 작성.
+        holder.binding.playRoutineButton.setOnClickListener{
+            onPlayRoutine(routine)
+        }
     }
 
     override fun getItemCount() = routines.size

@@ -17,7 +17,7 @@ class RoutineListActivity :AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        adapter = RoutineAdapter(mutableListOf(), this::onEditRoutine)
+        adapter = RoutineAdapter(mutableListOf(), this::onEditRoutine, this::onPlayRoutine)
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = adapter
 
@@ -34,7 +34,11 @@ class RoutineListActivity :AppCompatActivity() {
         intent.putExtra("routine_position", position)
         startActivityForResult(intent, EDIT_ROUTINE_REQUEST)
     }
-
+    private fun onPlayRoutine(routine:String){
+        val intent = Intent(this, PlayRoutineActivity::class.java)
+        intent.putExtra("routine",routine)
+        startActivity(intent)
+    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
