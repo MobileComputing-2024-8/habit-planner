@@ -4,6 +4,8 @@ plugins {
   alias(libs.plugins.android.application)
   alias(libs.plugins.jetbrains.kotlin.android)
   id("com.google.gms.google-services")
+  id("kotlin-kapt") // kapt 플러그인 추가
+
 }
 
 fun getApiKey(propertyKey: String): String {
@@ -55,9 +57,25 @@ dependencies {
   implementation(libs.material)
   implementation(libs.androidx.activity)
   implementation(libs.androidx.constraintlayout)
+
   implementation(libs.firebase.messaging)
+
   testImplementation(libs.junit)
   implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
   androidTestImplementation(libs.androidx.junit)
   androidTestImplementation(libs.androidx.espresso.core)
+
+  // Room dependencies
+  implementation(libs.androidx.room.runtime)
+  kapt(libs.androidx.room.compiler)
+  implementation(libs.androidx.room.ktx)
+
+  // ViewModel, LiveData
+  implementation(libs.androidx.lifecycle.viewmodel.ktx)
+  implementation(libs.androidx.lifecycle.livedata.ktx)
+
+  // Coroutines
+  implementation(libs.kotlinx.coroutines.core)
+  implementation(libs.kotlinx.coroutines.android)
+
 }

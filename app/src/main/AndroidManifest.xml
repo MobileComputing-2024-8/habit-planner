@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
+        android:name=".MyApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -19,26 +20,32 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
-        <activity android:name=".PlayRoutineActivity"
-            android:parentActivityName=".RoutineListActivity"
-            android:exported="true"/>
-        <activity android:name=".AddRoutineActivity"
-            android:parentActivityName=".RoutineListActivity"
-            android:exported="true"/>
+        <activity android:name=".ui.RoutineListActivity" />
+        <activity android:name=".ui.DoneActivity"/>
+
         <activity
-            android:name=".RoutineListActivity"
-            android:parentActivityName=".MainActivity"
-            android:exported="true"/>
-        <activity
-            android:name=".MainActivity"
-            android:exported="true"/>
-        <activity android:name="com.example.yourapp.SplashActivity"
-            android:theme="@style/splash"
+            android:name=".ui.AddRoutineActivity"
+            android:parentActivityName=".ui.RoutineListActivity">
+            <!-- Metadata to support older versions of Android -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.RoutineListActivity"/>
+        </activity>
+
+        <activity android:name=".ui.MainActivity" android:exported="true" />
+
+        <!-- SplashActivity를 메인 액티비티로 설정 -->
+        <activity android:name=".ui.SplashActivity"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.RunningActivity"
+            android:exported="true"
+            android:parentActivityName=".ui.RoutineListActivity" />
+
     </application>
+
 </manifest>

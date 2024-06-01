@@ -22,12 +22,13 @@
                 android:layout_height="wrap_content"
                 android:text="루틴 이름"
                 android:textSize="20sp"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/routineName"
                     android:layout_width="match_parent"
@@ -40,19 +41,20 @@
                 android:layout_height="wrap_content"
                 android:text="루틴 시작 시간"
                 android:textSize="20sp"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/routineStartTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="시간을 설정하세요."
                     android:focusable="false"
-                    android:clickable="true" />
+                    android:clickable="true"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
@@ -60,15 +62,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="할 일 추가"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"/>
 
             <LinearLayout
                 android:id="@+id/taskContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="10dp" />
-
+                android:layout_marginTop="10dp"/>
         </LinearLayout>
     </ScrollView>
 
@@ -78,6 +79,5 @@
         android:layout_height="wrap_content"
         android:text="루틴 추가"
         android:layout_margin="10dp"
-        android:layout_gravity="bottom" />
-
+        android:layout_gravity="bottom"/>
 </LinearLayout>
