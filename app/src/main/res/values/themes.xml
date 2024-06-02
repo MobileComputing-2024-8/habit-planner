@@ -5,5 +5,11 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
+    <!-- NoActionBar 테마-->
+    <style name="Theme.Habitplanner.NoActionBar" parent="Base.Theme.Habitplanner">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <style name="Theme.Habitplanner" parent="Base.Theme.Habitplanner" />
 </resources>
