@@ -73,9 +73,8 @@ class RoutineListAdapter(
             binding.playRoutineButton.setOnClickListener {
                 onPlay(routine)
             }
-            binding.root.setOnLongClickListener {
+            binding.deleteRoutineButton.setOnClickListener {
                 onDelete(routine)
-                true
             }
         }
     }

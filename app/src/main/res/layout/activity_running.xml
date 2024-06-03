@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="vertical"
     android:background="@color/white">
 
@@ -13,7 +14,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="90dp"
         android:text="침구 정리"
         android:textSize="30sp"
         android:textStyle="bold"
@@ -37,6 +37,7 @@
 
             <!-- BackgroundImage -->
             <ImageView
+                android:id="@+id/circle_img"
                 app:tint="#90FFFFFF"
                 android:tintMode="src_atop"
                 android:layout_width="match_parent"
@@ -60,6 +61,7 @@
 
             <!-- Inner Content -->
             <LinearLayout
+                android:id="@+id/timeCircle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -105,14 +107,31 @@
         android:layout_marginTop="32dp"
         android:orientation="horizontal">
 
-        <ImageButton
-            android:id="@+id/pausebtn"
-            android:layout_gravity="center"
+        <FrameLayout
             android:layout_width="62dp"
             android:layout_height="62dp"
-            android:layout_marginRight="16dp"
-            android:background="@drawable/pause_icon"
-            android:backgroundTint="@android:color/darker_gray"/>
+            android:layout_gravity="center"
+            android:layout_marginRight="16dp">
+
+            <ImageButton
+                android:id="@+id/pausebtn"
+                android:layout_width="62dp"
+                android:layout_height="62dp"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/pause_icon"
+                android:backgroundTint="@android:color/darker_gray"
+                android:visibility="visible"/>
+
+            <ImageButton
+                android:id="@+id/playbtn"
+                android:layout_width="62dp"
+                android:layout_height="62dp"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/play_circle_100"
+                android:backgroundTint="@android:color/darker_gray"
+                android:visibility="invisible"/>
+
+        </FrameLayout>
 
         <ImageButton
             android:id="@+id/checkbtn"
@@ -162,5 +181,7 @@
             android:textColor="@android:color/darker_gray" />
 
     </LinearLayout>
+
+
 
 </LinearLayout>

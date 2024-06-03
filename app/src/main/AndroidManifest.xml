@@ -21,7 +21,8 @@
             </intent-filter>
         </service>
         <activity android:name=".ui.RoutineListActivity" />
-        <activity android:name=".ui.DoneActivity"/>
+        <activity android:name=".ui.DoneActivity"
+            android:theme="@style/Theme.Habitplanner.NoActionBar"/>
 
         <activity
             android:name=".ui.AddRoutineActivity"
@@ -32,11 +33,13 @@
                 android:value=".ui.RoutineListActivity"/>
         </activity>
 
-        <activity android:name=".ui.MainActivity" android:exported="true" />
+        <activity android:name=".ui.MainActivity" android:exported="true"
+            android:theme="@style/Theme.Habitplanner.NoActionBar"/>
 
         <!-- SplashActivity를 메인 액티비티로 설정 -->
         <activity android:name=".ui.SplashActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.Habitplanner.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -44,7 +47,8 @@
         </activity>
         <activity android:name=".ui.RunningActivity"
             android:exported="true"
-            android:parentActivityName=".ui.RoutineListActivity" />
+            android:parentActivityName=".ui.RoutineListActivity"
+            android:theme="@style/Theme.Habitplanner.NoActionBar"/>
 
     </application>
 

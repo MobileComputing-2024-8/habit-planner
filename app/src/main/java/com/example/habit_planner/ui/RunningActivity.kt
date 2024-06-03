@@ -3,6 +3,7 @@ package com.example.habit_planner.ui
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.habit_planner.R
 import com.example.habit_planner.data.Task
@@ -27,19 +28,28 @@ class RunningActivity : AppCompatActivity() {
         startTask(currentTaskIndex)
 
         binding.pausebtn.setOnClickListener {
-            if (isPaused) {
-                resumeTimer()
-            } else {
-                pauseTimer()
-            }
+            pauseTimer()
+            binding.pausebtn.visibility=View.INVISIBLE
+            binding.playbtn.visibility= View.VISIBLE
+        }
+
+        binding.playbtn.setOnClickListener{
+            resumeTimer()
+            binding.playbtn.visibility=View.INVISIBLE
+            binding.pausebtn.visibility= View.VISIBLE
         }
 
         binding.checkbtn.setOnClickListener {
-            nextTask()
+            finishRoutine()
         }
 
         binding.nextTaskbtn.setOnClickListener {
             nextTask()
+        }
+
+        binding.timeCircle.setOnLongClickListener {
+            stopRoutine()
+            true
         }
     }
 
@@ -105,8 +115,19 @@ class RunningActivity : AppCompatActivity() {
         finish()
     }
 
+    private fun stopRoutine(){
+        val intent = Intent(this, RoutineListActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+        finish()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         countDownTimer?.cancel()
     }
+
+
+
+
 }
