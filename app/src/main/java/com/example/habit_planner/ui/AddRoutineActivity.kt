@@ -62,33 +62,45 @@ class AddRoutineActivity : AppCompatActivity() {
                 Toast.makeText(this, "할 일은 최대 10개까지 추가할 수 있습니다.", Toast.LENGTH_SHORT).show()
             }
         }
-
         binding.addRoutineButton.setOnClickListener {
             val routineName = binding.routineName.text.toString()
             val routineStartTime = binding.routineStartTime.text.toString()
 
-            if (routineName.isNotEmpty() && routineStartTime.isNotEmpty()) {
-                val routine = Routine(id = routineId ?: 0, name = routineName, startTime = routineStartTime)
-                tasks.clear()
-                for (i in 0 until binding.taskContainer.childCount) {
-                    val taskView = binding.taskContainer.getChildAt(i)
-                    val spinnerTask = taskView.findViewById<Spinner>(R.id.spinnerTask)
-                    val customTaskDescription = taskView.findViewById<EditText>(R.id.customTaskDescription)
-                    val taskDescription = if (customTaskDescription.visibility == View.VISIBLE) {
-                        customTaskDescription.text.toString()
-                    } else {
-                        spinnerTask.selectedItem.toString()
-                    }
-                    val timeText = taskView.findViewById<TextView>(R.id.timeText).text.toString()
-                    tasks.add(Task(0, routine.id, taskDescription, timeText))
+            when {
+                routineName.isEmpty() -> {
+                    Toast.makeText(this, "루틴 이름을 입력해 주세요.", Toast.LENGTH_SHORT).show()
                 }
-                routineViewModel.addRoutine(routine, tasks)
-                val intent = Intent(this, RoutineListActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
-                finish()
+                routineStartTime.isEmpty() -> {
+                    Toast.makeText(this, "루틴 시작 시간을 선택해 주세요.", Toast.LENGTH_SHORT).show()
+                }
+                tasks.isEmpty() -> {
+                    Toast.makeText(this, "할 일 없는 루틴은 추가할 수 없습니다.", Toast.LENGTH_SHORT).show()
+                }
+                else -> {
+                    val routine = Routine(id = routineId ?: 0, name = routineName, startTime = routineStartTime)
+                    tasks.clear()
+                    for (i in 0 until binding.taskContainer.childCount) {
+                        val taskView = binding.taskContainer.getChildAt(i)
+                        val spinnerTask = taskView.findViewById<Spinner>(R.id.spinnerTask)
+                        val customTaskDescription = taskView.findViewById<EditText>(R.id.customTaskDescription)
+                        val taskDescription = if (customTaskDescription.visibility == View.VISIBLE) {
+                            customTaskDescription.text.toString()
+                        } else {
+                            spinnerTask.selectedItem.toString()
+                        }
+                        val timeText = taskView.findViewById<TextView>(R.id.timeText).text.toString()
+                        tasks.add(Task(0, routine.id, taskDescription, timeText))
+                    }
+                    routineViewModel.addRoutine(routine, tasks)
+                    val intent = Intent(this, RoutineListActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                    finish()
+                }
             }
         }
+
+
     }
 
     private fun loadRoutineData(routineId: Int) {
@@ -169,7 +181,7 @@ class AddRoutineActivity : AppCompatActivity() {
         taskBinding.minusButton.setOnClickListener {
             val timeText = taskBinding.timeText
             var time = timeText.text.toString().replace("분", "").toInt()
-            if (time > 0) {
+            if (time > 1) {
                 time -= 1
                 timeText.text = "${time}분"
             }
