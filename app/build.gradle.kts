@@ -52,30 +52,39 @@ android {
 }
 
 dependencies {
-  implementation(libs.androidx.core.ktx)
-  implementation(libs.androidx.appcompat)
-  implementation(libs.material)
-  implementation(libs.androidx.activity)
-  implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.constraintlayout)
 
-  implementation(libs.firebase.messaging)
+    implementation(libs.firebase.messaging)
 
-  testImplementation(libs.junit)
-  implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
-  androidTestImplementation(libs.androidx.junit)
-  androidTestImplementation(libs.androidx.espresso.core)
+    testImplementation(libs.junit)
+    implementation(platform(libs.firebase.bom))
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
 
-  // Room dependencies
-  implementation(libs.androidx.room.runtime)
-  kapt(libs.androidx.room.compiler)
-  implementation(libs.androidx.room.ktx)
+    // Room dependencies
+    implementation(libs.androidx.room.runtime)
+    kapt(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
 
-  // ViewModel, LiveData
-  implementation(libs.androidx.lifecycle.viewmodel.ktx)
-  implementation(libs.androidx.lifecycle.livedata.ktx)
+    // ViewModel, LiveData
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
 
-  // Coroutines
-  implementation(libs.kotlinx.coroutines.core)
-  implementation(libs.kotlinx.coroutines.android)
+    // Coroutines
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
+
+    //http
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
+
+    //tts
+    implementation(libs.play.services.vision)
 
 }
