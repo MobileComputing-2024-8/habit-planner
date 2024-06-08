@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.BLUETOOTH"/>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
@@ -58,6 +60,7 @@
             android:exported="true"
             android:parentActivityName=".ui.RoutineListActivity"
             android:theme="@style/Theme.Habitplanner.NoActionBar"/>
+        <receiver android:name=".ui.AlarmReceiver" android:exported="false"/>
 
     </application>
 

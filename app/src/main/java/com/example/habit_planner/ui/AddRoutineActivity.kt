@@ -1,8 +1,14 @@
 package com.example.habit_planner.ui
 
+import android.app.AlarmManager
 import android.app.AlertDialog
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.app.TimePickerDialog
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.view.LayoutInflater
@@ -23,6 +29,7 @@ import com.example.habit_planner.data.Routine
 import com.example.habit_planner.data.Task
 import com.example.habit_planner.databinding.ActivityAddRoutineBinding
 import com.example.habit_planner.databinding.TaskItemBinding
+import com.example.habit_planner.ui.AlarmReceiver.Companion.CHANNEL_ID
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
@@ -35,15 +42,21 @@ class AddRoutineActivity : AppCompatActivity() {
 
     private val tasks = mutableListOf<Task>()
     private var routineId: Int? = null
+    private lateinit var alarmManager: AlarmManager
+    private lateinit var pendingIntent: PendingIntent
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddRoutineBinding.inflate(layoutInflater)
+        alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         setContentView(binding.root)
 
         // 업 버튼 활성화
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
+
+        createNotificationChannel()
 
         routineId = intent.getIntExtra("ROUTINE_ID", -1).takeIf { it != -1 }
 
@@ -77,6 +90,7 @@ class AddRoutineActivity : AppCompatActivity() {
                     Toast.makeText(this, "할 일 없는 루틴은 추가할 수 없습니다.", Toast.LENGTH_SHORT).show()
                 }
                 else -> {
+                    routineId?.let { cancelAlarm(it) } //(편집시) 기존 알람 삭제
                     val routine = Routine(id = routineId ?: 0, name = routineName, startTime = routineStartTime)
                     tasks.clear()
                     for (i in 0 until binding.taskContainer.childCount) {
@@ -92,6 +106,8 @@ class AddRoutineActivity : AppCompatActivity() {
                         tasks.add(Task(0, routine.id, taskDescription, timeText))
                     }
                     routineViewModel.addRoutine(routine, tasks)
+                    setAlarm(routineName, routineStartTime) // 새로운 알림 설정
+
                     val intent = Intent(this, RoutineListActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)
@@ -102,7 +118,76 @@ class AddRoutineActivity : AppCompatActivity() {
 
 
     }
+    private fun setAlarm(routineName: String, startTime: String) {
+        val (hour, minute) = startTime.split(":").map { it.toInt() }
 
+        val calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            set(Calendar.HOUR_OF_DAY, hour)
+            set(Calendar.MINUTE, minute)
+            set(Calendar.SECOND, 0)
+        }
+
+        if (calendar.timeInMillis <= System.currentTimeMillis()) {
+            calendar.add(Calendar.DAY_OF_MONTH, 1) // 다음 날 같은 시간으로 설정
+        }
+
+        val intent = Intent(this, AlarmReceiver::class.java).apply {
+            putExtra("ROUTINE_NAME", routineName)
+        }
+
+        pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+        } else {
+            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+        }
+    }
+
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = getString(R.string.app_name)
+            val descriptionText = getString(R.string.channel_description)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+    private fun scheduleNotification(routineId: Int, routineName: String, triggerTime: Long) {
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(this, AlarmReceiver::class.java).apply {
+            putExtra("ROUTINE_NAME", routineName)
+            putExtra("ROUTINE_ID", routineId)
+        }
+        val pendingIntent = PendingIntent.getBroadcast(this, routineId, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent)
+        }
+    }
+
+    private fun getPendingIntent(routineId: Int): PendingIntent {
+        val intent = Intent(this, RoutineListActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            putExtra("ROUTINE_ID", routineId)
+        }
+        return PendingIntent.getActivity(this, routineId, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+    }
+
+    private fun cancelAlarm(routineId: Int) {
+        val intent = Intent(this, AlarmReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(this, routineId, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+        alarmManager.cancel(pendingIntent)
+    }
     private fun loadRoutineData(routineId: Int) {
         lifecycleScope.launch {
             routineViewModel.getRoutines().collect { routines ->
@@ -190,6 +275,7 @@ class AddRoutineActivity : AppCompatActivity() {
         taskBinding.deleteButton.setOnClickListener {
             binding.taskContainer.removeView(taskItemView)
             tasks.remove(task)
+            task?.let { cancelAlarm(it.routineId) }  // 해당 루틴의 알람 취소
         }
 
         taskBinding.spinnerTask.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
