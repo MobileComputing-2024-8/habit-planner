@@ -29,6 +29,14 @@
             android:contentDescription="Edit"/>
 
         <ImageButton
+            android:id="@+id/deleteRoutineButton"
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:src="@drawable/delete_24"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Delete"/>
+
+        <ImageButton
             android:id="@+id/playRoutineButton"
             android:layout_width="50sp"
             android:layout_height="50sp"
