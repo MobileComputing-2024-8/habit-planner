@@ -10,4 +10,5 @@
     <string name="cheering_message">고생하셨어요!\n오늘도 좋은 하루 보내세요!</string>
     <string name="congratuation">🎉</string>
     <string name="msg_token_fmt">Token: %1$s</string>
+    <string name="channel_description">루틴을 시작할 시간입니다!</string>
 </resources>
