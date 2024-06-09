@@ -182,6 +182,8 @@ class RunningActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private fun nextTask() {
         countDownTimer?.cancel()
         currentTaskIndex++
+        tts.stop()
+        tts.shutdown()
         startTask(currentTaskIndex)
     }
 
