@@ -9,6 +9,7 @@ import android.widget.Toast
 import android.view.View
 
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import com.example.habit_planner.BuildConfig
 import com.example.habit_planner.ChatGPTClient
 import com.example.habit_planner.R
@@ -68,6 +69,10 @@ class RunningActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             stopRoutine()
             true
         }
+
+        binding.titleTextView.addTextChangedListener {
+            updateImageBasedOnTitle(it.toString())
+        }
     }
 
     override fun onInit(status: Int) {
@@ -102,6 +107,8 @@ class RunningActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         } else {
             binding.nextTaskText.text = "없음"
         }
+
+        updateImageBasedOnTitle(task.description)
 
         val userPrompt = "${task.description}, ${task.time}"
         client.sendMessage("gpt-3.5-turbo", userPrompt, object : Callback<ChatResponse> {
@@ -206,5 +213,14 @@ class RunningActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         countDownTimer?.cancel()
         tts.stop()
         tts.shutdown()
+    }
+
+    private fun updateImageBasedOnTitle(title: String) {
+        when (title) {
+            "침구류 정리" -> binding.circleImg.setImageResource(R.drawable.routin_bed_blur)
+            "물 마시기" -> binding.circleImg.setImageResource(R.drawable.routin_drinkwater_blur)
+            "양치하기" -> binding.circleImg.setImageResource(R.drawable.routin_brushing_blur)
+            else -> binding.circleImg.setImageResource(R.drawable.routin_default_blur)
+        }
     }
 }
